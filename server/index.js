@@ -1,10 +1,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-
+import QuoteRoute from './routes/quotes.js'
+import dotenv from 'dotenv'
 
 // initiation
 const app = express()
+dotenv.config()
 // middlewares
 app.use(express.json({ limit: '30mb', extended: true }))
 app.use(express.urlencoded({ limit: '30mb', extended: true }))
@@ -15,7 +17,6 @@ app.use(cors());
 
 
 // routes
-import QuoteRoute from './routes/quotes.js'
 app.use('/quotes', QuoteRoute)
 
 
@@ -38,12 +39,11 @@ app.use('/quotes', QuoteRoute)
 
 
 // constants
-const CONNECTION_URL = "mongodb+srv://hasnain:hasnain123@cluster0.xa0yd.mongodb.net/quotationdb?retryWrites=true&w=majority"
 const PORT = process.env.PORT || 5000
+const URL = process.env.CONNECTION_URL_OFFLINE
 
 
-
-mongoose.connect(CONNECTION_URL, {useNewUrlParser : true})
+mongoose.connect(URL, {useNewUrlParser : true})
 .then( () => app.listen(PORT, ()=> console.log(`server running on port ${PORT}`)))
 .catch( (err) => console.log("error occured", err.message))
 

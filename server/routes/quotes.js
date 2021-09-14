@@ -1,15 +1,26 @@
 import express from 'express'
-import {getQuote , createQuote} from '../controllers/quotes.js'
+import {getQuote , createQuote, updateQuote, deleteQuote, likeQuote, disLikeQuote} from '../controllers/quotes.js'
 
 // initilize
 const router = express.Router()
 
-// get request
+// read all quotes
 router.get("/", getQuote )
 
 
-// post request
+// add a quote
 router.post("/", createQuote )
 
+// updating quote using patch (for low bandwidh)
+router.patch("/:id", updateQuote)
+
+// deleting quote
+router.delete("/:id", deleteQuote)
+
+// liking quote
+router.patch("/:id/likequote", likeQuote)
+
+// disLiking quote
+router.patch("/:id/dislikequote", disLikeQuote)
 
 export default router

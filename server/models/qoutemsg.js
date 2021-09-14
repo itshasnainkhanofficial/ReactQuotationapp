@@ -10,6 +10,10 @@ const quoteSchema = mongoose.Schema({
         type : Number,
         default : 0,
     },
+    disLikeCount: {
+        type : Number,
+        default : 0,
+    },
     created : {
         type : Date,
         default: new Date()

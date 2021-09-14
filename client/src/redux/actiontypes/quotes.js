@@ -1,2 +1,4 @@
 export const FETCH_QUOTES = "FETCH_QUOTES"
-export const CREATE_QUOTES = "CREATE_QUOTES" 
+export const CREATE_QUOTES = "CREATE_QUOTES"
+export const UPDATE_QUOTES = "UPDATE_QUOTES"
+export const DELETE_QUOTES = "DELETE_QUOTES"
