@@ -43,7 +43,7 @@ app.route("/", (req, res) => {
 
 // constants
 const PORT = process.env.PORT || 5000
-const URL = process.env.CONNECTION_URL_OFFLINE
+const URL = process.env.CONNECTION_URL_ONLINE
 
 
 mongoose.connect(URL, {useNewUrlParser : true})
