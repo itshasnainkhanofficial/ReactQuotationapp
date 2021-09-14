@@ -19,7 +19,7 @@ app.use(cors());
 // routes
 app.use('/quotes', QuoteRoute)
 
-app.route("/", (req, res) => {
+app.get("/", (req, res) => {
     res.send("Welcome to Quotations app")
 })
 

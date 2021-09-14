@@ -1,5 +1,6 @@
 import axios from 'axios'
 const url = "http://localhost:5000/quotes"
+// const url = "https://greatquotations.herokuapp.com/quotes"
 
 // fetching all Quotes
 export const fetchAllQuotes = () => axios.get(url)
