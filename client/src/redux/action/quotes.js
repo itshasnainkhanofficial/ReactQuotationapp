@@ -108,18 +108,3 @@ export const likeQuote = (id) => async (dispatch) => {
     }
     
 }
-// dislike Quote
-export const DisLikeQuote = (id) => async (dispatch) => {
-
-    try {
-
-        const response = await api.disLikeQuote(id) 
-        const data = response.data
-        dispatch(updateQuoteAction(data))
-
-    } catch (error) {
-
-        console.log("error" , error)
-    }
-    
-}

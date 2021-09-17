@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import QuoteRoute from './routes/quotes.js'
+import UserRoute from './routes/users.js'
 import dotenv from 'dotenv'
 
 // initiation
@@ -17,11 +18,12 @@ app.use(cors());
 
 
 // routes
-app.use('/quotes', QuoteRoute)
-
 app.get("/", (req, res) => {
     res.send("Welcome to Quotations app")
 })
+
+app.use('/quotes', QuoteRoute)
+app.use('/user', UserRoute)
 
 
 
@@ -43,7 +45,7 @@ app.get("/", (req, res) => {
 
 // constants
 const PORT = process.env.PORT || 5000
-const URL = process.env.CONNECTION_URL_ONLINE
+const URL = process.env.CONNECTION_URL_OFFLINE
 
 
 mongoose.connect(URL, {useNewUrlParser : true})

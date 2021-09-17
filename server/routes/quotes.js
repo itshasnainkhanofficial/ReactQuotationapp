@@ -1,5 +1,6 @@
 import express from 'express'
 import {getQuote , createQuote, updateQuote, deleteQuote, likeQuote, disLikeQuote} from '../controllers/quotes.js'
+import auth from '../middleware/auth.js'
 
 // initilize
 const router = express.Router()
@@ -9,18 +10,18 @@ router.get("/", getQuote )
 
 
 // add a quote
-router.post("/", createQuote )
+router.post("/", auth, createQuote )
 
 // updating quote using patch (for low bandwidh)
-router.patch("/:id", updateQuote)
+router.patch("/:id", auth, updateQuote)
 
 // deleting quote
-router.delete("/:id", deleteQuote)
+router.delete("/:id",auth, deleteQuote)
 
 // liking quote
-router.patch("/:id/likequote", likeQuote)
+router.patch("/:id/likequote",auth, likeQuote)
 
 // disLiking quote
-router.patch("/:id/dislikequote", disLikeQuote)
+router.patch("/:id/dislikequote",auth, disLikeQuote)
 
 export default router

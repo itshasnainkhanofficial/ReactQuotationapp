@@ -6,7 +6,6 @@ function Quotes({setCurrentId}) {
     const quotes = useSelector(state => state.quotes)
     const classes = useStyles();
 
-    console.log("from quotes component", quotes)
 
 
     return (

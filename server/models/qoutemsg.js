@@ -4,17 +4,18 @@ const quoteSchema = mongoose.Schema({
     title : String,
     message : String,
     creator : String,
+    name: String,
     tags : [String],
     selectedFile: String,
     likeCount: {
-        type : Number,
-        default : 0,
+        type : [String],
+        default : [],
     },
     disLikeCount: {
         type : Number,
         default : 0,
     },
-    created : {
+    createdAt : {
         type : Date,
         default: new Date()
     }
