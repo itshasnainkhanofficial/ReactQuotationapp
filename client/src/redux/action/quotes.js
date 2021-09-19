@@ -1,46 +1,70 @@
 import * as api from '../../api'
-import {FETCH_QUOTES , CREATE_QUOTES, UPDATE_QUOTES, DELETE_QUOTES} from '../actiontypes/quotes'
-// import axios from 'axios'
+import * as ActionConstants from '../actiontypes/quotes'
 
 
 
-const fetchQuotesAction = (quotes) => {
+const fetchQuotesAction = (data, currentPage, numberOfPages) => {
     return {
-        type : FETCH_QUOTES,
+        type : ActionConstants.FETCH_QUOTES,
+        payload: { data, currentPage, numberOfPages }
+    }
+}
+const fetchQuotesBySearchAction = (quotes) => {
+    return {
+        type : ActionConstants.FETCH_QUOTES_BY_SEARCH,
         payload : quotes
     }
 }
-const createQuotesAction = (quotes) => {
+const createQuotesAction = (data) => {
     return {
-        type : CREATE_QUOTES,
-        payload : quotes
+        type : ActionConstants.CREATE_QUOTES,
+        payload : data
     }
 }
 const updateQuoteAction = (quotes) => {
     return {
-        type : UPDATE_QUOTES,
+        type : ActionConstants.UPDATE_QUOTES,
         payload : quotes
     }
 }
 const deleteQuoteAction = (quotes) => {
     return {
-        type : DELETE_QUOTES,
+        type : ActionConstants.DELETE_QUOTES,
         payload : quotes
     }
 }
 
+const loadingStartAction = () => {
+    return { type: ActionConstants.START_LOADING}
+}
+const loadingEndAction = () => {
+    return { type: ActionConstants.END_LOADING}
+}
 
 
 // action creaters
 
 // Getting all quotes
-export const getQuotes = () => async (dispatch ) => {
+export const getQuotes = (page) => async (dispatch ) => {
     try {
-        const response = await api.fetchAllQuotes() 
-        const data = response.data
-        dispatch(fetchQuotesAction(data))
+        dispatch(loadingStartAction())
+        const {data : { data, currentPage, numberOfPages }}  = await api.fetchAllQuotes(page)
+        dispatch(fetchQuotesAction(data , currentPage, numberOfPages))
+        dispatch(loadingEndAction())
     } catch (error) {
         console.log("error" , error.message)
+    }
+    
+}
+// get Quotes by search
+export const getQuotesBySearch = (searchQuery) => async (dispatch ) => {
+    try {
+        dispatch(loadingStartAction())
+        const {data : {data}} = await api.fetchAllQuotesBySearch(searchQuery) 
+        dispatch(fetchQuotesBySearchAction(data))
+        dispatch(loadingEndAction())
+    } catch (error) {
+        console.log("error in search quote" , error.message)
     }
     
 }
@@ -50,11 +74,11 @@ export const getQuotes = () => async (dispatch ) => {
 // Adding new Quote
 export const createQuotes = (quote) => async (dispatch) => {
     try {
-
+        dispatch(loadingStartAction())
         const response = await api.createNewQuote(quote) 
         const data = response.data
         dispatch(createQuotesAction(data))
-
+        dispatch(loadingEndAction())
     } catch (error) {
 
         console.log("error" , error)

@@ -1,12 +1,37 @@
 import QuoteModel from '../models/qoutemsg.js'
 import mongoose from 'mongoose';
 
-export const getQuote = async (req, res , next) => {
+export const getQuote = async (req, res ) => {
+    // res.send("get quote run")
+    const {page} = req.query
+    // res.send(page)
+
     try {
-        const allQuote = await QuoteModel.find()
-        res.json(allQuote)
+        const LIMIT = 8; // no. of quotes per page
+        const startIndex = (Number(page) - 1) * LIMIT // get the starting index of every page
+        const total = await QuoteModel.countDocuments({})
+
+        const Quotes = await QuoteModel.find().sort({_id : -1}).limit(LIMIT).skip(startIndex)
+
+        res.status(200).json({data : Quotes , currentPage:Number(page), numberOfPages: Math.ceil(total / LIMIT)})
     } catch (error) {
-        res.json({message: error.message})   
+        res.status(404).json({message: error.message})   
+    }
+}
+
+// Query = /quotes/quotes?page=1 ==> page = 1
+// params = /quotes/:123 ==> id = 123
+
+// getQuotesBySearch
+export const getQuotesBySearch = async (req, res ) => {
+    const {searchQuery, tags } = req.query
+    try {
+        const title = new RegExp(searchQuery, 'i')
+        const quotes = await QuoteModel.find({$or : [{title}, {tags : {$in : tags.split(",")}}]})
+        console.log(quotes)
+        res.json({data : quotes})
+    } catch (error) {
+        res.status(404).json({message: error.message})   
     }
 }
 

@@ -1,27 +1,37 @@
 
-import {FETCH_QUOTES , CREATE_QUOTES, UPDATE_QUOTES, DELETE_QUOTES} from '../actiontypes/quotes'
+import * as ActionConstants from '../actiontypes/quotes'
 
 
-const initialState = []
-const reducer =  (states = initialState , action) => {
-
-
+const initialState = {
+    isLoading : true,
+    quotes: []
+}
+const reducer =  (state = initialState , action) => {
+    
     switch (action.type) {
 
-        case FETCH_QUOTES:
-            return action.payload
+        case ActionConstants.START_LOADING:
+            return {...state, isLoading: true}
+        case ActionConstants.END_LOADING:
+            return {...state, isLoading: false}
 
-        case CREATE_QUOTES:
-            return [...states , action.payload]
+        case ActionConstants.FETCH_QUOTES:
+            return {...state , quotes : action.payload.data, currentPage: action.payload.currentPage, numberOfPages: action.payload.numberOfPages}
 
-        case DELETE_QUOTES:
-            return states.filter( (state) => state._id !== action.payload )
+        case ActionConstants.FETCH_QUOTES_BY_SEARCH:
+            return {...state, quotes: action.payload}
+            
+        case ActionConstants.CREATE_QUOTES:
+            return {...state, quotes: [...state.quotes , action.payload]}
 
-        case UPDATE_QUOTES:
-            return states.map( state => state._id === action.payload._id ? action.payload : state)
+        case ActionConstants.DELETE_QUOTES:
+            return {...state , quotes : state.quotes.filter( (state) => state._id !== action.payload )}
+
+        case ActionConstants.UPDATE_QUOTES:
+            return {...state, quotes : state.quotes.map( state => state._id === action.payload._id ? action.payload : state)}
 
         default:
-            return states
+            return state
     }
 }
 

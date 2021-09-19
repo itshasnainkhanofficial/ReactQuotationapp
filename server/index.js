@@ -47,7 +47,6 @@ app.use('/user', UserRoute)
 const PORT = process.env.PORT || 5000
 const URL = process.env.CONNECTION_URL_OFFLINE
 
-
 mongoose.connect(URL, {useNewUrlParser : true})
 .then( () => app.listen(PORT, ()=> console.log(`server running on port ${PORT}`)))
 .catch( (err) => console.log("error occured", err.message))

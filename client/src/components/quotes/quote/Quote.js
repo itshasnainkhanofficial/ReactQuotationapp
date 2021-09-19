@@ -2,7 +2,6 @@ import useStyles from './style'
 import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core/';
 import moment from 'moment'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
-// import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import {useDispatch} from 'react-redux'
@@ -33,7 +32,7 @@ function Quote({quote , setCurrentId}) {
 
 
     return (
-        <Card className={classes.card}>
+        <Card className={classes.card} raised elevation={6}>
       <CardMedia className={classes.media} image={quote.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} title={quote.title} />
       <div className={classes.overlay}>
         <Typography variant="h6">{quote.name}</Typography>

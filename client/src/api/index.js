@@ -29,9 +29,10 @@
 
 import axios from 'axios'
 
-
+// base URL
 const API = axios.create({baseURL: "http://localhost:5000"})
 
+// sending token with every request
 API.interceptors.request.use((req) => {
     if (localStorage.getItem('profile')) {
       req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
@@ -39,8 +40,12 @@ API.interceptors.request.use((req) => {
   
     return req;
   });
+
 // fetching all Quotes
-export const fetchAllQuotes = () => API.get("/quotes")
+export const fetchAllQuotes = (page) => API.get(`/quotes?page=${page}`)
+
+// fetch Quotes by Search
+export const fetchAllQuotesBySearch = (searchQuery) => API.get(`/quotes/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`)
 
 // creating new Quote
 export const createNewQuote = (newQuote) => API.post("/quotes",newQuote)

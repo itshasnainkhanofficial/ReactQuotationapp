@@ -5,17 +5,19 @@ import FileBase from 'react-file-base64'
 import { useDispatch } from 'react-redux'
 import { createQuotes, updateQuote } from '../../redux/action/quotes'
 import { useSelector } from 'react-redux'
+import ChipInput from 'material-ui-chip-input';
+
 
 function Form({ currentId, setCurrentId }) {
     const classes = useStyle();
-    const quote = useSelector(state => currentId ? state.quotes.find((p) => p._id === currentId) : null)
+    const quote = useSelector(state => currentId ? state.quotes.quotes.find((p) => p._id === currentId) : null)
     const user = JSON.parse(localStorage.getItem("profile"));
 
     const dispatch = useDispatch();
     const [quoteData, setquoteData] = useState({
         title: "",
         message: "",
-        tags: "",
+        tags: [],
         selectedFile: "",
     })
 
@@ -38,7 +40,13 @@ function Form({ currentId, setCurrentId }) {
         }
         clear();
     };
-
+    const handleAddChip = (tag) => {
+        setquoteData({ ...quoteData, tags: [...quoteData.tags, tag] });
+      };
+    
+      const handleDeleteChip = (chipToDelete) => {
+        setquoteData({ ...quoteData, tags: quoteData.tags.filter((tag) => tag !== chipToDelete) });
+      };
     if (!user?.result?.name) {
         return (
             <Paper className={classes.paper}>
@@ -58,7 +66,20 @@ function Form({ currentId, setCurrentId }) {
 
                     <TextField name="title" variant="outlined" label="Title" fullWidth value={quoteData.title} onChange={(e) => setquoteData({ ...quoteData, title: e.target.value })} />
                     <TextField name="message" variant="outlined" label="Message" fullWidth value={quoteData.message} onChange={(e) => setquoteData({ ...quoteData, message: e.target.value })} />
-                    <TextField name="tags" variant="outlined" label="Tags" fullWidth value={quoteData.tags} onChange={(e) => setquoteData({ ...quoteData, tags: e.target.value.split(",") })} />
+                    {/* <TextField name="tags" variant="outlined" label="Tags" fullWidth value={quoteData.tags} onChange={(e) => setquoteData({ ...quoteData, tags: e.target.value.split(",") })} /> */}
+                    <div style={{ padding: '5px 0', width: '94%' }}>
+                        <ChipInput
+                            name="tags"
+                            variant="outlined"
+                            label="Tags"
+                            fullWidth
+                            value={quoteData.tags}
+                            onAdd={(chip) => handleAddChip(chip)}
+                            onDelete={(chip) => handleDeleteChip(chip)}
+                            newChipKeys={['Enter' ,'Tab']}
+                            
+                        />
+                    </div>
                     <div className={classes.fileInput}>
                         <FileBase type="file" multiple={false} onDone={({ base64 }) => setquoteData({ ...quoteData, selectedFile: base64 })} />
                     </div>

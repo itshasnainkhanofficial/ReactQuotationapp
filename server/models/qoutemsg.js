@@ -21,6 +21,6 @@ const quoteSchema = mongoose.Schema({
     }
 })
 
-const QuoteModel = mongoose.model("quotemsg", quoteSchema)
+const QuoteModel = mongoose.model("Quote", quoteSchema)
 
 export default QuoteModel
