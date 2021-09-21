@@ -1,10 +1,20 @@
 import QuoteModel from '../models/qoutemsg.js'
 import mongoose from 'mongoose';
 
-export const getQuote = async (req, res ) => {
-    // res.send("get quote run")
+
+export const getQuote = async (req, res) => {
+    const {id} = req.params;
+    try {
+        const quote = await QuoteModel.findById(id)
+        res.status(200).json(quote)
+    } catch (error) {
+        res.status(404).json(error)
+    }
+}
+
+
+export const getQuotes = async (req, res ) => {
     const {page} = req.query
-    // res.send(page)
 
     try {
         const LIMIT = 8; // no. of quotes per page

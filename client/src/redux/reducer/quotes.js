@@ -17,7 +17,8 @@ const reducer =  (state = initialState , action) => {
 
         case ActionConstants.FETCH_QUOTES:
             return {...state , quotes : action.payload.data, currentPage: action.payload.currentPage, numberOfPages: action.payload.numberOfPages}
-
+        case ActionConstants.FETCH_QUOTE:
+            return {...state , quote : action.payload}
         case ActionConstants.FETCH_QUOTES_BY_SEARCH:
             return {...state, quotes: action.payload}
             

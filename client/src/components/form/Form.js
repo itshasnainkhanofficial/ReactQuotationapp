@@ -6,9 +6,10 @@ import { useDispatch } from 'react-redux'
 import { createQuotes, updateQuote } from '../../redux/action/quotes'
 import { useSelector } from 'react-redux'
 import ChipInput from 'material-ui-chip-input';
-
+import { useHistory } from 'react-router-dom';
 
 function Form({ currentId, setCurrentId }) {
+    const history = useHistory()
     const classes = useStyle();
     const quote = useSelector(state => currentId ? state.quotes.quotes.find((p) => p._id === currentId) : null)
     const user = JSON.parse(localStorage.getItem("profile"));
@@ -33,7 +34,8 @@ function Form({ currentId, setCurrentId }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (currentId === null || currentId === 0) {
-            dispatch(createQuotes({ ...quoteData, name: user?.result?.name }));
+            dispatch(createQuotes({ ...quoteData, name: user?.result?.name }, history));
+            
         } else {
 
             dispatch(updateQuote(currentId, { ...quoteData, name: user?.result?.name }))

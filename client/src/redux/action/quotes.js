@@ -9,6 +9,12 @@ const fetchQuotesAction = (data, currentPage, numberOfPages) => {
         payload: { data, currentPage, numberOfPages }
     }
 }
+const fetchQuoteAction = (data) => {
+    return {
+        type : ActionConstants.FETCH_QUOTE,
+        payload: { quote : data }
+    }
+}
 const fetchQuotesBySearchAction = (quotes) => {
     return {
         type : ActionConstants.FETCH_QUOTES_BY_SEARCH,
@@ -56,6 +62,18 @@ export const getQuotes = (page) => async (dispatch ) => {
     }
     
 }
+// Getting single quote
+export const getSingleQuote = (id) => async (dispatch ) => {
+    try {
+        dispatch(loadingStartAction())
+        const {data }  = await api.fetchSingleQuote(id)
+        dispatch(fetchQuoteAction(data))
+        dispatch(loadingEndAction())
+    } catch (error) {
+        console.log("error" , error.message)
+    }
+    
+}
 // get Quotes by search
 export const getQuotesBySearch = (searchQuery) => async (dispatch ) => {
     try {
@@ -72,13 +90,18 @@ export const getQuotesBySearch = (searchQuery) => async (dispatch ) => {
 
 
 // Adding new Quote
-export const createQuotes = (quote) => async (dispatch) => {
+export const createQuotes = (quote, history) => async (dispatch) => {
+    
     try {
         dispatch(loadingStartAction())
         const response = await api.createNewQuote(quote) 
         const data = response.data
+
+        
         dispatch(createQuotesAction(data))
         dispatch(loadingEndAction())
+
+        history.push(`/quotes/${data._id}`)
     } catch (error) {
 
         console.log("error" , error)

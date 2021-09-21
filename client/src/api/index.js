@@ -41,6 +41,9 @@ API.interceptors.request.use((req) => {
     return req;
   });
 
+
+// fetch signle Quote
+export const fetchSingleQuote = (id) => axios.get(`/quotes/${id}`)
 // fetching all Quotes
 export const fetchAllQuotes = (page) => API.get(`/quotes?page=${page}`)
 

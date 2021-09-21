@@ -2,8 +2,7 @@ import { Container, Grid, Paper, AppBar, TextField, Button } from '@material-ui/
 import { useDispatch } from 'react-redux';
 import Form from '../form/Form';
 import Quotes from '../quotes/Quotes';
-import { useEffect , useState } from 'react';
-import {getQuotes} from '../../redux/action/quotes'
+import { useState } from 'react';
 import Pagination from '../pagination/Pagination'
 import useStyles from './styles'
 import ChipInput from 'material-ui-chip-input';

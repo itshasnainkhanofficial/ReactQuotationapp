@@ -1,5 +1,5 @@
 import express from 'express'
-import {getQuote , createQuote, updateQuote, deleteQuote, likeQuote,getQuotesBySearch} from '../controllers/quotes.js'
+import {getQuotes , createQuote, updateQuote, deleteQuote, likeQuote,getQuotesBySearch, getQuote} from '../controllers/quotes.js'
 import auth from '../middleware/auth.js'
 
 // initilize
@@ -9,7 +9,10 @@ const router = express.Router()
 router.get("/search", getQuotesBySearch)
 
 // read all quotes
-router.get("/", getQuote )
+router.get("/", getQuotes )
+
+// read single quote
+router.get("/:id", getQuote )
 
 // add a quote
 router.post("/", auth, createQuote )
