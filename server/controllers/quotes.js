@@ -38,7 +38,6 @@ export const getQuotesBySearch = async (req, res ) => {
     try {
         const title = new RegExp(searchQuery, 'i')
         const quotes = await QuoteModel.find({$or : [{title}, {tags : {$in : tags.split(",")}}]})
-        console.log(quotes)
         res.json({data : quotes})
     } catch (error) {
         res.status(404).json({message: error.message})   
@@ -134,10 +133,12 @@ export const likeQuote = async (req, res) => {
 
 
 
-export const disLikeQuote = async (req, res) => {
+
+export const commentQuote = async (req, res) => {
     const {id : _id} = req.params
-    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send("No quote with this Id")
-    const quote = await QuoteModel.findById( _id)
-    const updatedQuote = await QuoteModel.findByIdAndUpdate(_id, {disLikeCount : quote.disLikeCount + 1} , {new : true})
+    const {value} = req.body;
+    const quote = await QuoteModel.findById(_id)
+    quote.commentQuote.push(value)
+    const updatedQuote = await QuoteModel.findByIdAndUpdate(_id,quote, { new : true })
     res.json(updatedQuote)
 }

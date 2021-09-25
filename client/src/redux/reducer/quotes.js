@@ -30,7 +30,16 @@ const reducer =  (state = initialState , action) => {
 
         case ActionConstants.UPDATE_QUOTES:
             return {...state, quotes : state.quotes.map( state => state._id === action.payload._id ? action.payload : state)}
-
+        case ActionConstants.COMMENT_QUOTE:
+            return {
+                ...state,
+                quotes : state.quotes.map( quote => {
+                    if(quote._id === action.payload._id){
+                        return action.payload
+                    }
+                    return quote
+                })
+            }
         default:
             return state
     }

@@ -7,7 +7,6 @@ const secret = process.env.SECRET || 'test';
 
 export const signIn = async (req, res) => {
   const { email, password } = req.body;
-    console.log(req.body)
   try {
     const existingUser = await UserModal.findOne({ email });
 
@@ -45,6 +44,5 @@ export const signUp = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
     
-    console.log(error);
   }
 };

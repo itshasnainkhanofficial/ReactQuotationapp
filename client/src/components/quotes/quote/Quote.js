@@ -8,22 +8,34 @@ import { useDispatch } from 'react-redux'
 import { deleteQuote, likeQuote } from '../../../redux/action/quotes'
 import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined';
 import { useHistory } from 'react-router-dom';
-
+import {useState} from 'react'
 
 function Quote({ quote, setCurrentId }) {
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
+  const [likes , setLikes] = useState(quote?.likeCount);
   const user = JSON.parse(localStorage.getItem('profile'));
+  
+  const userId = user?.result?.googleId || user?.result?._id
+  const hasLikedQuote = quote.likeCount.find((like) => like === userId);
 
+  const handleLike = async ()  => {
+    dispatch(likeQuote(quote._id))
+    if(hasLikedQuote){
+      setLikes(quote.likeCount.filter( (id) => id !== userId))
+    }else{
+      setLikes([...quote.likeCount, userId])
+    }
+  }
 
   const Likes = () => {
-    if (quote.likeCount.length > 0) {
-      return quote.likeCount.find((like) => like === (user?.result?.googleId || user?.result?._id))
+    if (likes.length > 0) {
+      return likes.find((like) => like === userId)
         ? (
-          <><ThumbUpAltIcon fontSize="small" />&nbsp;{quote.likeCount.length > 2 ? `You and ${quote.likeCount.length - 1} others` : `${quote.likeCount.length} like${quote.likeCount.length > 1 ? 's' : ''}`}</>
+          <><ThumbUpAltIcon fontSize="small" />&nbsp;{likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} like${likes.length > 1 ? 's' : ''}`}</>
         ) : (
-          <><ThumbUpAltOutlined fontSize="small" />&nbsp;{quote.likeCount.length} {quote.likeCount.length === 1 ? 'Like' : 'Likes'}</>
+          <><ThumbUpAltOutlined fontSize="small" />&nbsp;{likes.length} {likes.length === 1 ? 'Like' : 'Likes'}</>
         );
     }
 
@@ -63,7 +75,7 @@ function Quote({ quote, setCurrentId }) {
         </CardContent>
       </ButtonBase>
       <CardActions className={classes.cardActions}>
-        <Button size="small" color="primary" disabled={!user?.result} onClick={() => dispatch(likeQuote(quote._id))}> &nbsp; <Likes /> </Button>
+        <Button size="small" color="primary" disabled={!user?.result} onClick={handleLike}> &nbsp; <Likes /> </Button>
         {(user?.result?.googleId === quote?.creator || user?.result?._id === quote?.creator) && (
           <Button size="small" color="secondary" onClick={() => dispatch(deleteQuote(quote._id))}>
             <DeleteIcon fontSize="small" /> Delete

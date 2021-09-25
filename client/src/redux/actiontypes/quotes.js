@@ -7,3 +7,4 @@ export const DELETE_QUOTES = "DELETE_QUOTES"
 
 export const START_LOADING = "START_LOADING"
 export const END_LOADING = "END_LOADING"
+export const COMMENT_QUOTE = "COMMENT_QUOTE"

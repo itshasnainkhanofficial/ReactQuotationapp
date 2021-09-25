@@ -47,6 +47,12 @@ const loadingEndAction = () => {
     return { type: ActionConstants.END_LOADING}
 }
 
+const commentQuote = (quote) => {
+    return {
+        type : ActionConstants.COMMENT_QUOTE,
+        payload: { quote}
+    }
+} 
 
 // action creaters
 
@@ -154,4 +160,16 @@ export const likeQuote = (id) => async (dispatch) => {
         console.log("error" , error)
     }
     
+}
+
+
+export const commentQuoteAction = (value , id) => async (dispatch) => {
+    try {
+        const {data} = await api.commentQuote(value , id)
+
+        dispatch(commentQuote(data))
+        return data.commentQuote
+    }catch (error){
+        console.log("error" , error)
+    }
 }

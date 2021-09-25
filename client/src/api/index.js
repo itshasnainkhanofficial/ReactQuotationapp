@@ -68,3 +68,6 @@ export const signIn = (formData) => API.post('/user/signin', formData);
 
 // signUp
 export const signUp = (formData) => API.post('/user/signup', formData);
+
+// comment quote
+export const commentQuote = (value , id) => API.post(`/quotes/${id}/commentQuote`, {value});

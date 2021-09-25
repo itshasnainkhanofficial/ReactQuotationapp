@@ -11,6 +11,10 @@ const quoteSchema = mongoose.Schema({
         type : [String],
         default : [],
     },
+    commentQuote: {
+        type : [String],
+        default : [],
+    },
     disLikeCount: {
         type : Number,
         default : 0,

@@ -6,7 +6,7 @@ import { useParams, useHistory } from 'react-router-dom';
 
 import { getSingleQuote, getQuotesBySearch } from '../../redux/action/quotes';
 import useStyles from './styles';
-
+import Comments from './Comments'
 const QuoteDetails = () => {
   const {quote, quotes , isLoading} = useSelector((state) => state.quotes);
   
@@ -55,7 +55,11 @@ const QuoteDetails = () => {
           <Divider style={{ margin: '20px 0' }} />
           <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
           <Divider style={{ margin: '20px 0' }} />
-          {/* <CommentSection quote={quote} /> */}
+
+
+          <Comments quote={quote} />
+
+
           <Divider style={{ margin: '20px 0' }} />
         </div>
         <div className={classes.imageSection}>
